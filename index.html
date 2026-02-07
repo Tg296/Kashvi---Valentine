@@ -13,6 +13,7 @@ body {
   font-family: 'Quicksand', sans-serif;
   color: #3a2c2c;
   text-align: center;
+  overflow-x: hidden;
 }
 
 header {
@@ -22,31 +23,11 @@ header {
 
 h1 {
   font-family: 'Pacifico', cursive;
-  font-size: 3.2em;
-}
-
-.subtitle {
-  font-size: 1.2em;
-  margin-top: 10px;
+  font-size: 3em;
 }
 
 .section {
   padding: 60px 20px;
-}
-
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-  max-width: 1000px;
-  margin: auto;
-}
-
-.gallery img {
-  width: 100%;
-  border-radius: 20px;
-  filter: sepia(20%) contrast(1.05);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
 .card {
@@ -58,26 +39,92 @@ h1 {
   box-shadow: 0 20px 40px rgba(0,0,0,0.1);
 }
 
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.memory {
+  position: relative;
+  cursor: pointer;
+}
+
+.memory img {
+  width: 100%;
+  border-radius: 20px;
+  filter: blur(6px);
+  transition: 0.5s;
+}
+
+.memory.revealed img {
+  filter: none;
+}
+
+.memory span {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  padding: 8px;
+  font-size: 0.9em;
+}
+
 button {
   background: #ff5d8f;
   color: white;
   border: none;
-  padding: 18px 40px;
-  font-size: 1.2em;
+  padding: 16px 36px;
+  font-size: 1.1em;
   border-radius: 40px;
   cursor: pointer;
-  margin: 20px;
+  margin: 15px;
+}
+
+.button-area {
+  position: relative;
+  height: 160px;
+  margin-top: 40px;
+}
+
+#yes {
+  position: absolute;
+  left: 30%;
+  top: 60px;
 }
 
 #no {
+  position: absolute;
+  left: 55%;
+  top: 60px;
   background: #ffd6e0;
   color: #ff5d8f;
-  position: absolute;
+}
+
+#counter {
+  font-size: 1.2em;
+  margin-top: 15px;
 }
 
 footer {
   padding: 30px;
   font-size: 0.9em;
+}
+
+.heart {
+  position: fixed;
+  bottom: -20px;
+  font-size: 20px;
+  animation: float 6s linear infinite;
+}
+
+@keyframes float {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-100vh); opacity: 0; }
 }
 </style>
 </head>
@@ -86,62 +133,123 @@ footer {
 
 <header>
   <h1>Kashvi 💕</h1>
-  <div class="subtitle">
-    One year of us, countless memories, infinite love
-  </div>
+  <p>One year of us, countless memories, infinite love</p>
+  <div id="counter"></div>
 </header>
 
 <div class="section">
   <div class="card">
     <p>
-      From random laughs to quiet moments,
-      from silly photos to memories I’ll keep forever
-      loving you has been the easiest, happiest thing in my life.
-    </p>
-    <p>
+      Loving you has been the easiest, happiest thing in my life.
       You are my comfort, my chaos, my calm, and my home.
     </p>
+
+    <button onclick="showLove()">Why I love you 💌</button>
+    <p id="loveText"></p>
+
+    <button onclick="hug()">Tap for a hug 🤍</button>
+    <p id="hugText"></p>
   </div>
 </div>
 
 <div class="section">
-  <h2>Our Little Memories 📸</h2>
+  <h2>Tap our memories 📸</h2>
   <div class="gallery">
-    <img src="./image1.jpeg" alt="Memory 1">
-    <img src="image2.jpeg" alt="Memory 2">
-    <img src="image3.jpeg" alt="Memory 3">
-    <img src="image4.jpeg" alt="Memory 4">
+    <div class="memory" onclick="this.classList.add('revealed')">
+      <img src="./image1.jpeg">
+      <span>That smile I fell for</span>
+    </div>
+    <div class="memory" onclick="this.classList.add('revealed')">
+      <img src="image2.jpeg">
+      <span>Us being us</span>
+    </div>
+    <div class="memory" onclick="this.classList.add('revealed')">
+      <img src="image3.jpeg">
+      <span>One of my favourite days</span>
+    </div>
+    <div class="memory" onclick="this.classList.add('revealed')">
+      <img src="image4.jpeg">
+      <span>Forever my favourite person</span>
+    </div>
   </div>
 </div>
 
 <div class="section">
   <h1>Will you be my Valentine? 🌹</h1>
-
-  <button onclick="yesClicked()">YES 💖</button>
-  <button id="no" onmouseover="moveNo()">NO 🙄</button>
+  <div class="button-area">
+    <button id="yes" onclick="yesClicked()">YES 💖</button>
+    <button id="no" onmouseover="moveNo()">NO 🙄</button>
+  </div>
 </div>
 
 <footer>
-  Made with all my love — always yours ❤️
+  Made with all my love ❤️
 </footer>
 
+<audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
 <script>
-function yesClicked() {
-  document.body.innerHTML = `
-    <header>
-      <h1>She said YES 💘</h1>
-      <p class="subtitle">
-        I love you more than words, Kashvi ❤️
-      </p>
-    </header>
-  `;
+const reasons = [
+  "You make ordinary days magical.",
+  "Your laugh is my favourite sound.",
+  "You feel like home.",
+  "You understand me without words.",
+  "Life feels lighter with you."
+];
+
+function showLove() {
+  document.getElementById("loveText").innerText =
+    reasons[Math.floor(Math.random() * reasons.length)];
+}
+
+function hug() {
+  document.getElementById("hugText").innerText =
+    "This is me hugging you tightly 🤍";
 }
 
 function moveNo() {
   const btn = document.getElementById("no");
-  btn.style.left = Math.random() * (window.innerWidth - 100) + "px";
-  btn.style.top = Math.random() * (window.innerHeight - 100) + "px";
+  const area = document.querySelector(".button-area");
+
+  btn.style.left = Math.random() * (area.clientWidth - btn.offsetWidth) + "px";
+  btn.style.top = Math.random() * (area.clientHeight - btn.offsetHeight) + "px";
 }
+
+function yesClicked() {
+  document.getElementById("music").play();
+  confetti();
+
+  setTimeout(() => {
+    document.body.innerHTML = `
+      <header>
+        <h1>One last question… 💍</h1>
+        <p>Will you always be mine, Kashvi?</p>
+      </header>
+    `;
+  }, 2000);
+}
+
+function confetti() {
+  for (let i = 0; i < 50; i++) {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.innerText = "💖";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.animationDuration = (Math.random() * 3 + 3) + "s";
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 6000);
+  }
+}
+
+// Time counter (SET YOUR START DATE HERE)
+const start = new Date("2024-02-01");
+setInterval(() => {
+  const diff = Date.now() - start;
+  document.getElementById("counter").innerText =
+    "We’ve been us for " + Math.floor(diff / (1000 * 60 * 60 * 24)) + " days 💕";
+}, 1000);
 </script>
 
 </body>
