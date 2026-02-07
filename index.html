@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Kashvi 💖 My Valentine</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  background: #fff1e6;
+  font-family: 'Quicksand', sans-serif;
+  color: #3a2c2c;
+  text-align: center;
+}
+
+header {
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #ffb3c6, #ffe5d9);
+}
+
+h1 {
+  font-family: 'Pacifico', cursive;
+  font-size: 3.2em;
+}
+
+.subtitle {
+  font-size: 1.2em;
+  margin-top: 10px;
+}
+
+.section {
+  padding: 60px 20px;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.gallery img {
+  width: 100%;
+  border-radius: 20px;
+  filter: sepia(20%) contrast(1.05);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.card {
+  background: #fff;
+  border-radius: 25px;
+  padding: 40px;
+  max-width: 700px;
+  margin: auto;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+button {
+  background: #ff5d8f;
+  color: white;
+  border: none;
+  padding: 18px 40px;
+  font-size: 1.2em;
+  border-radius: 40px;
+  cursor: pointer;
+  margin: 20px;
+}
+
+#no {
+  background: #ffd6e0;
+  color: #ff5d8f;
+  position: absolute;
+}
+
+footer {
+  padding: 30px;
+  font-size: 0.9em;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Kashvi 💕</h1>
+  <div class="subtitle">
+    One year of us, countless memories, infinite love
+  </div>
+</header>
+
+<div class="section">
+  <div class="card">
+    <p>
+      From random laughs to quiet moments,
+      from silly photos to memories I’ll keep forever
+      loving you has been the easiest, happiest thing in my life.
+    </p>
+    <p>
+      You are my comfort, my chaos, my calm, and my home.
+    </p>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Our Little Memories 📸</h2>
+  <div class="gallery">
+    <img src="WhatsApp Image 2026-02-07 at 1.30.21 PM (1).jpg">
+    <img src="WhatsApp Image 2026-02-07 at 1.30.21 PM (2).jpg">
+    <img src="WhatsApp Image 2026-02-07 at 1.30.21 PM (3).jpg">
+    <img src="WhatsApp Image 2026-02-07 at 1.30.21 PM.jpg">
+  </div>
+</div>
+
+<div class="section">
+  <h1>Will you be my Valentine? 🌹</h1>
+
+  <button onclick="yesClicked()">YES 💖</button>
+  <button id="no" onmouseover="moveNo()">NO 🙄</button>
+</div>
+
+<footer>
+  Made with all my love — always yours ❤️
+</footer>
+
+<script>
+function yesClicked() {
+  document.body.innerHTML = `
+    <header>
+      <h1>She said YES 💘</h1>
+      <p class="subtitle">
+        I love you more than words, Kashvi ❤️
+      </p>
+    </header>
+  `;
+}
+
+function moveNo() {
+  const btn = document.getElementById("no");
+  btn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+  btn.style.top = Math.random() * (window.innerHeight - 100) + "px";
+}
+</script>
+
+</body>
+</html>
