@@ -201,8 +201,14 @@ function showLove() {
 }
 
 function hug() {
+  document.body.style.transform = "scale(0.97)";
+  document.body.style.transition = "0.3s";
   document.getElementById("hugText").innerText =
     "This is me hugging you tightly 🤍";
+
+  setTimeout(() => {
+    document.body.style.transform = "scale(1)";
+  }, 300);
 }
 
 function moveNo() {
